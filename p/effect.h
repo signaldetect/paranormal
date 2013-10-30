@@ -45,8 +45,8 @@ public:
  * Macros for definition of an effect
  */
 
-#define the(_effect_) decltype(&_effect_), &_effect_
+#define p__the(_effect_) decltype(&_effect_), &_effect_
 
-#define P_Effect(_Host_, _effect_) p::Effect<the(_Host_::_effect_)>
+#define p__effect(_Host_, _name_) p::Effect<p__the(_Host_::_name_)>
 
 #endif /*_P_EFFECT_H_*/

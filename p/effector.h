@@ -80,7 +80,7 @@ public:
 /**
  * Definition of effects as part of effector
  */
-#define effects \
+#define p__effects \
 protected: \
   template <class t_Host, class t_Whitelist> \
   void bind()
@@ -88,7 +88,7 @@ protected: \
 /**
  * Definition of effect as part of effector
  */
-#define _(_name_, ...) \
+#define p__(_name_, ...) \
     bind_##_name_<t_Host, t_Whitelist>(); \
   } \
   \
@@ -99,8 +99,8 @@ private: \
   template <class t_Host, class t_Whitelist> \
   void bind_##_name_() \
   { \
-    _name_ = p::Binding</*Init=*/p::Effect<the(p::Effector::Type::_name_)>, \
+    _name_ = p::Binding<p::Effect<p__the(p::Effector::Type::_name_)>, \
                         t_Whitelist, \
-                        /*Dest=*/p::Effect<the(t_Host::_name_)>>::value
+                        /*Dest=*/p::Effect<p__the(t_Host::_name_)>>::value
 
 #endif /*_P_EFFECTOR_H_*/
