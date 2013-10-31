@@ -93,13 +93,13 @@ protected: \
   } \
   \
 public: \
-  void (p::Effector::Type::*_name_)(__VA_ARGS__);  \
+  void (Effector::Type::*_name_)(__VA_ARGS__);  \
   \
 private: \
   template <class t_Host, class t_Whitelist> \
   void bind_##_name_() \
   { \
-    _name_ = p::Binding<p::Effect<p__the(p::Effector::Type::_name_)>, \
+    _name_ = p::Binding</*Init=*/p::Effect<p__the(Effector::Type::_name_)>, \
                         t_Whitelist, \
                         /*Dest=*/p::Effect<p__the(t_Host::_name_)>>::value
 
