@@ -12,7 +12,7 @@ SOURCES += \
 #  ball.cpp
 
 INCLUDEPATH += \
-  ../../../../paranormal \
+  ../../../../paranormal/include \
   ../3rdparty/SFML-2.1/include
 
 LIBS += \
