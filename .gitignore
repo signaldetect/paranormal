@@ -1,0 +1,5 @@
+*~
+*.pro.user
+3rdparty/
+debug/
+release/
