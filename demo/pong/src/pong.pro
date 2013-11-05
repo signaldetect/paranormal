@@ -1,15 +1,8 @@
 TARGET = pong
 TEMPLATE = app
+
 CONFIG -= qt
-
-#HEADERS += \
-#  paddle.h \
-#  ball.h
-
-SOURCES += \
-  main.cpp
-#  paddle.cpp \
-#  ball.cpp
+QMAKE_CXXFLAGS += -std=c++11
 
 INCLUDEPATH += \
   ../../../../paranormal/include \
@@ -20,3 +13,21 @@ LIBS += \
   -lsfml-system \
   -lsfml-window \
   -lsfml-graphics
+
+HEADERS += \
+  paddle.h \
+  ball.h \
+  game.h \
+  gameeffector.h \
+  window.h \
+  windoweffector.h \
+  fieldeffector.h \
+  field.h
+
+SOURCES += \
+  main.cpp \
+  paddle.cpp \
+  ball.cpp \
+  game.cpp \
+  window.cpp \
+  field.cpp
