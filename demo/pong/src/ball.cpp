@@ -4,31 +4,60 @@
 #include "ball.h"
 
 Ball::Ball(float x, float y, float w, float h)
+  : initPos(x, y)
 {
   // Setups geometry (position and size)
-  rect.setPosition(x, y);
+  initializePosition();
   rect.setSize(sf::Vector2f(/*x=*/w, /*y=*/h));
-  rect.setOrigin(/*x=*/w / 3.0f, /*y=*/h / 3.0f);
+  rect.setOrigin(/*x=*/w / 2.0f, /*y=*/h / 2.0f);
   // Setups direction
   randomizeDirection();
 }
 
-void Ball::fieldTimeStepped(float time)
+void Ball::fieldTimeStepped(float time_step)
 {
-  const float mov_time = time / 5.0f;
+  const float offset = time_step / 5.0f;
+  rect.move(/*offsetX=*/dir.x * offset, /*offsetY=*/-dir.y * offset);
   //
-  sf::Vector2f pos = rect.getPosition();
-  pos.x += dir.x * mov_time;
-  pos.y -= dir.y * mov_time;
-  //
-  if (pos.y >= 592.0f)
-    dir.y *= -1;
-  else if (pos.y <= 8.0f) {
-    pos.y += 3.0f;
-    dir.y *= -1;
+  actualize<p__the(BallEffector::ballMoved)>(rect);
+}
+
+void Ball::fieldLeftPassed()
+{
+  initializePosition();
+  randomizeDirection();
+}
+
+void Ball::fieldRightPassed()
+{
+  initializePosition();
+  randomizeDirection();
+}
+
+void Ball::fieldTopCollided(const sf::RectangleShape& clash_rect)
+{
+  if (rect.getOrigin() == clash_rect.getOrigin()) {
   }
-  //
-  rect.setPosition(pos);
+}
+
+void Ball::fieldBottomCollided(const sf::RectangleShape& clash_rect)
+{
+  if (rect.getOrigin() == clash_rect.getOrigin()) {
+  }
+}
+
+void Ball::windowRendering(sf::RenderTarget& render)
+{
+  render.draw(rect);
+}
+
+void Ball::windowClosed()
+{
+}
+
+void Ball::initializePosition()
+{
+  rect.setPosition(initPos);
 }
 
 void Ball::randomizeDirection()
@@ -46,9 +75,4 @@ void Ball::randomizeDirection()
   //
   dir.x = x;
   dir.y = y;
-}
-
-void Ball::draw(sf::RenderTarget& render)
-{
-  render.draw(rect);
 }

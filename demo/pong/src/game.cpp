@@ -6,6 +6,10 @@ Game::Game()
   play();
 }
 
+void Game::windowRendering(sf::RenderTarget& render)
+{
+}
+
 void Game::windowClosed()
 {
   playing = false;

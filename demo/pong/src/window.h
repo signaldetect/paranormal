@@ -2,7 +2,7 @@
 #define _WINDOW_H_
 
 #include <p/eventer.h>
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 // Actualizer
 #include "windoweffector.h"

@@ -23,6 +23,8 @@ void Window::gamePlaying()
   //
   clear();
   //
-  if (!isOpen())
+  if (isOpen())
+    actualize<p__the(WindowEffector::windowRendering)>(/*render=*/*this);
+  else
     actualize<p__the(WindowEffector::windowClosed)>();
 }
