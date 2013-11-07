@@ -73,7 +73,7 @@ protected:
   }
 
   template <class t_Sign, t_Sign t_Member, class ...vt_Args>
-  void actualize(vt_Args ...args)
+  void actualize(vt_Args&& ...args)
   {
     channel.template wave<t_Sign, t_Member>(args...);
   }
@@ -101,7 +101,7 @@ protected:
   }
 
   template <class t_Sign, t_Sign t_Member, class ...vt_Args>
-  void actualize(vt_Args ...args)
+  void actualize(vt_Args&& ...args)
   {
     channel.template wave<t_Sign, t_Member>(args...);
   }
@@ -129,7 +129,7 @@ protected:
   }
 
   template <class t_Sign, t_Sign t_Member, class ...vt_Args>
-  void actualize(vt_Args ...args)
+  void actualize(vt_Args&& ...args)
   {
     channel.template wave<t_Sign, t_Member>(args...);
   }

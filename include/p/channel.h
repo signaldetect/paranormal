@@ -40,7 +40,7 @@ public:
   }
 
   template <class t_Sign, t_Sign t_Member, class ...vt_Args>
-  void wave(vt_Args ...args)
+  void wave(vt_Args&& ...args)
   {
     if (cursor == Type::end()) {
       for (cursor = Type::begin(); cursor != Type::end(); ++cursor)

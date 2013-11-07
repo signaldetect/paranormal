@@ -36,10 +36,9 @@ public:
    * t_Member -- pointer to entry-effect method pointer
    */
   template <class t_Sign, t_Sign t_Member, class ...vt_Args>
-  void wave(vt_Args ...args)
+  void wave(vt_Args&& ...args)
   {
-    typedef void (T_E::*EntryEffect)(vt_Args ...);
-    const EntryEffect entry_effect = static_cast<T_E*>(this)->*t_Member;
+    auto entry_effect = static_cast<T_E*>(this)->*t_Member;
     // entry_effect -- entry-effect method pointer
     if (entry_effect != nullptr)
       (static_cast<T_E*>(this)->*entry_effect)(args...);
