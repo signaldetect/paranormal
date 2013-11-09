@@ -2,16 +2,16 @@
 #define _FIELDEFFECTOR_H_
 
 #include <p/effector.h>
-#include <SFML/Graphics/RectangleShape.hpp>
+
+#include "rectangle.h"
 
 class FieldEffector : public p::Effector<FieldEffector> {
-  p__effects {
-    p__(fieldTimeStepped, float time);
-    p__(fieldLeftPassed);
-    p__(fieldRightPassed);
-    p__(fieldTopCollided, const sf::RectangleShape& clash_rect);
-    p__(fieldBottomCollided, const sf::RectangleShape& clash_rect);
-  }
+public:
+  p__def(fieldTimeStepped, float /*time_step*/)
+  p__def(fieldLeftPassed)
+  p__def(fieldRightPassed)
+  p__def(fieldTopCollided, const Rectangle& /*colliding_rect*/)
+  p__def(fieldBottomCollided, const Rectangle& /*colliding_rect*/)
 };
 
 #endif /*_FIELDEFFECTOR_H_*/

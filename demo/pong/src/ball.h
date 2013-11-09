@@ -2,41 +2,49 @@
 #define _BALL_H_
 
 #include <p/eventer.h>
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp> /* sf::Vector2f, sf::Vector2i */
+#include <SFML/Graphics/RenderTarget.hpp>
+
+#include "rectangle.h"
 
 // Actualizer
 #include "balleffector.h"
 
 // Effectors
 #include "fieldeffector.h"
+#include "paddleeffector.h"
 #include "windoweffector.h"
 
-class Ball : public p::Eventer<Ball,
-                               p::Act<BallEffector>,
+class Ball : public p::Eventer<p::Act<BallEffector>,
+                               p::Ext<Rectangle>,
                                FieldEffector,
+                               PaddleEffector,
                                WindowEffector> {
 private:
-  const sf::Vector2f initPos; // initial position
+  const sf::Vector2f initial; // initial position
+  sf::Vector2i direction;
 
-  sf::RectangleShape rect; // geometry (position and size)
-  sf::Vector2i dir; // direction
+  float offset = 0.0f;
 
 public:
-  Ball(float x = 400.0f, float y = 300.0f, float w = 15.0f, float h = 15.0f);
+  Ball(const sf::Vector2f& pos, const sf::Vector2f& size);
 
   // Effects (Field)
   void fieldTimeStepped(float time_step);
   void fieldLeftPassed();
   void fieldRightPassed();
-  void fieldTopCollided(const sf::RectangleShape& clash_rect);
-  void fieldBottomCollided(const sf::RectangleShape& clash_rect);
+  void fieldTopCollided(const Rectangle& colliding_rect);
+  void fieldBottomCollided(const Rectangle& colliding_rect);
+
+  // Effects (Paddle)
+  void paddleMoved(const Rectangle& moving_rect);
+  void paddleBallReturned();
 
   // Effects (Window)
   void windowRendering(sf::RenderTarget& render);
   void windowClosed();
 
 private:
-  void initializePosition();
   void randomizeDirection();
 };
 

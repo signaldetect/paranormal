@@ -4,10 +4,9 @@
 #include <p/effector.h>
 
 class GameEffector : public p::Effector<GameEffector> {
-  p__effects {
-    p__(gameLaunched);
-    p__(gamePlaying);
-  }
+public:
+  p__def(gameLaunched)
+  p__def(gamePlaying)
 };
 
 #endif /*_GAMEEFFECTOR_H_*/

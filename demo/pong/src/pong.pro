@@ -23,8 +23,9 @@ HEADERS += \
   windoweffector.h \
   fieldeffector.h \
   field.h \
-    balleffector.h \
-    paddleeffector.h
+  balleffector.h \
+  paddleeffector.h \
+  rectangle.h
 
 SOURCES += \
   main.cpp \

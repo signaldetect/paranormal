@@ -3,6 +3,7 @@
 
 #include <p/eventer.h>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/String.hpp>
 
 // Actualizer
 #include "windoweffector.h"
@@ -10,12 +11,11 @@
 // Effectors
 #include "gameeffector.h"
 
-class Window : public p::Eventer<Window,
-                                 p::Act<WindowEffector>,
+class Window : public p::Eventer<p::Act<WindowEffector>,
                                  p::Ext<sf::RenderWindow>,
                                  GameEffector> {
 public:
-  Window();
+  Window(unsigned int width, unsigned int height, const sf::String& title);
 
   // Effects (Game)
   void gameLaunched();

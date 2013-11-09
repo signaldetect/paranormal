@@ -3,61 +3,66 @@
 
 #include "ball.h"
 
-Ball::Ball(float x, float y, float w, float h)
-  : initPos(x, y)
+Ball::Ball(const sf::Vector2f& pos, const sf::Vector2f& size)
+  : initial(pos)
 {
-  // Setups geometry (position and size)
-  initializePosition();
-  rect.setSize(sf::Vector2f(/*x=*/w, /*y=*/h));
-  rect.setOrigin(/*x=*/w / 2.0f, /*y=*/h / 2.0f);
+  // Setups position and size
+  setupGeometry(pos, size);
   // Setups direction
   randomizeDirection();
 }
 
 void Ball::fieldTimeStepped(float time_step)
 {
-  const float offset = time_step / 5.0f;
-  rect.move(/*offsetX=*/dir.x * offset, /*offsetY=*/-dir.y * offset);
+  offset = 0.2f * time_step;
+  move(/*offsetX=*/(float)direction.x * offset,
+       /*offsetY=*/-(float)direction.y * offset);
   //
-  actualize<p__the(BallEffector::ballMoved)>(rect);
+  actualize<p__the(BallEffector::ballMoved)>(/*moving_rect=*/*this);
 }
 
 void Ball::fieldLeftPassed()
 {
-  initializePosition();
+  setPosition(initial);
   randomizeDirection();
 }
 
 void Ball::fieldRightPassed()
 {
-  initializePosition();
+  setPosition(initial);
   randomizeDirection();
 }
 
-void Ball::fieldTopCollided(const sf::RectangleShape& clash_rect)
+void Ball::fieldTopCollided(const Rectangle& colliding_rect)
 {
-  if (rect.getOrigin() == clash_rect.getOrigin()) {
-  }
+  if (identityGeometry(colliding_rect))
+    direction.y *= -1;
 }
 
-void Ball::fieldBottomCollided(const sf::RectangleShape& clash_rect)
+void Ball::fieldBottomCollided(const Rectangle& colliding_rect)
 {
-  if (rect.getOrigin() == clash_rect.getOrigin()) {
-  }
+  if (identityGeometry(colliding_rect))
+    direction.y *= -1;
+}
+
+void Ball::paddleMoved(const Rectangle& /*moving_rect*/)
+{
+}
+
+void Ball::paddleBallReturned()
+{
+  move(/*offsetX=*/-(float)direction.x * offset,
+       /*offsetY=*/(float)direction.y * offset);
+  direction.x *= -1;
 }
 
 void Ball::windowRendering(sf::RenderTarget& render)
 {
-  render.draw(rect);
+  render.draw(/*drawable=*/*this);
 }
 
 void Ball::windowClosed()
 {
-}
-
-void Ball::initializePosition()
-{
-  rect.setPosition(initPos);
 }
 
 void Ball::randomizeDirection()
@@ -73,6 +78,6 @@ void Ball::randomizeDirection()
     y = 1;
   }
   //
-  dir.x = x;
-  dir.y = y;
+  direction.x = x;
+  direction.y = y;
 }

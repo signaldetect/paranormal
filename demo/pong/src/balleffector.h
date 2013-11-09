@@ -2,12 +2,12 @@
 #define _BALLEFFECTOR_H_
 
 #include <p/effector.h>
-#include <SFML/Graphics/RectangleShape.hpp>
+
+#include "rectangle.h"
 
 class BallEffector : public p::Effector<BallEffector> {
-  p__effects {
-    p__(ballMoved, const sf::RectangleShape& rect);
-  }
+public:
+  p__def(ballMoved, const Rectangle& /*moving_rect*/)
 };
 
 #endif /*_BALLEFFECTOR_H_*/

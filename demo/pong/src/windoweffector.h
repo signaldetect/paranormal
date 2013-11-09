@@ -5,10 +5,9 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 
 class WindowEffector : public p::Effector<WindowEffector> {
-  p__effects {
-    p__(windowRendering, sf::RenderTarget& render);
-    p__(windowClosed);
-  }
+public:
+  p__def(windowRendering, sf::RenderTarget& /*render*/)
+  p__def(windowClosed)
 };
 
 #endif /*_WINDOWEFFECTOR_H_*/

@@ -2,12 +2,13 @@
 #define _PADDLEEFFECTOR_H_
 
 #include <p/effector.h>
-#include <SFML/Graphics/RectangleShape.hpp>
+
+#include "rectangle.h"
 
 class PaddleEffector : public p::Effector<PaddleEffector> {
-  p__effects {
-    p__(paddleMoved, const sf::RectangleShape& rect);
-  }
+public:
+  p__def(paddleMoved, const Rectangle& /*moving_rect*/)
+  p__def(paddleBallReturned)
 };
 
 #endif /*_PADDLEEFFECTOR_H_*/

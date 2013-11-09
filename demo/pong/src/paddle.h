@@ -2,7 +2,10 @@
 #define _PADDLE_H_
 
 #include <p/eventer.h>
-#include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp> /* sf::Vector2f */
+#include <SFML/Graphics/RenderTarget.hpp>
+
+#include "rectangle.h"
 
 // Actualizer
 #include "paddleeffector.h"
@@ -12,28 +15,34 @@
 #include "balleffector.h"
 #include "windoweffector.h"
 
-class Paddle : public p::Eventer<Paddle,
-                                 p::Act<PaddleEffector>,
+class Paddle : public p::Eventer<p::Act<PaddleEffector>,
+                                 p::Ext<Rectangle>,
                                  FieldEffector,
                                  BallEffector,
                                  WindowEffector> {
 private:
-  sf::RectangleShape rect; // geometry (position and size)
-  unsigned int score = 0;
+  float offset = 0.0f;
+  //unsigned int score = 0;
 
 public:
-  Paddle(float x = 400.0f, float y = 300.0f,
-         float w = 10.0f, float h = 100.0f);
+  Paddle(const sf::Vector2f& pos, const sf::Vector2f& size);
 
   // Effects (Field)
-  void fieldTimeStepped(float time);
+  void fieldTimeStepped(float time_step);
+  void fieldLeftPassed();
+  void fieldRightPassed();
+  void fieldTopCollided(const Rectangle& colliding_rect);
+  void fieldBottomCollided(const Rectangle& colliding_rect);
 
   // Effects (Ball)
-  void ballMoved(const sf::RectangleShape& rect);
+  void ballMoved(const Rectangle& moving_rect);
 
   // Effects (Window)
   void windowRendering(sf::RenderTarget& render);
   void windowClosed();
+
+//private:
+//  const sf::RectangleShape intersect(const sf::RectangleShape& other) const;
 };
 
 #endif /*_PADDLE_H_*/

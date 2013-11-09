@@ -1,9 +1,12 @@
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
+
 #include "window.h"
 
-Window::Window()
+Window::Window(unsigned int width, unsigned int height,
+               const sf::String& title)
 {
-  setSize(sf::Vector2u(/*x=*/800, /*y=*/600));
-  setTitle("Pong!");
+  create(sf::VideoMode(width, height), title);
   setVerticalSyncEnabled(true);
 }
 
@@ -21,10 +24,11 @@ void Window::gamePlaying()
       close();
   }
   //
-  clear();
-  //
-  if (isOpen())
+  if (isOpen()) {
+    clear();
     actualize<p__the(WindowEffector::windowRendering)>(/*render=*/*this);
+    display();
+  }
   else
     actualize<p__the(WindowEffector::windowClosed)>();
 }

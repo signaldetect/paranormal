@@ -15,14 +15,16 @@
 #include "ball.h"
 #include "paddle.h"
 
-class Game : public p::Eventer<Game,
-                               p::Act<GameEffector>,
+class Game : public p::Eventer<p::Act<GameEffector>,
+                               /*p::Effector<p__from(WindowEffector,
+                                                   windowClosed)>*/
                                WindowEffector> {
 private:
   Window window;
   Field field;
   Ball ball;
-  Paddle paddle;
+  Paddle paddleLeft;
+  //Paddle paddleRight;
 
   bool playing;
 

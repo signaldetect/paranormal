@@ -1,47 +1,94 @@
+#include <SFML/Window/Keyboard.hpp>
+
 #include "paddle.h"
 
-Paddle::Paddle(float x, float y, float w, float h)
+Paddle::Paddle(const sf::Vector2f& pos, const sf::Vector2f& size)
 {
-  // Setups geometry (position and size)
-  rect.setPosition(x, y);
-  rect.setSize(sf::Vector2f(/*x=*/w, /*y=*/h));
-  rect.setOrigin(/*x=*/w / 2.0f, /*y=*/h / 2.0f);
+  // Setups position and size
+  setupGeometry(pos, size);
 }
 
-void Paddle::fieldTimeStepped(float time)
+void Paddle::fieldTimeStepped(float time_step)
 {
   const bool up_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::W);
   const bool down_pressed = sf::Keyboard::isKeyPressed(sf::Keyboard::S);
   //
   if (up_pressed || down_pressed) {
-    sf::Vector2f pos = rect.getPosition();
-    pos.y += (up_pressed ? -1.0f : 1.0f) * time * 0.3f;
-    rect.setPosition(pos);
+    offset = 0.3f * time_step;
+    move(/*offsetX=*/0.0f, /*offsetY=*/(up_pressed ? -offset : offset));
     //
-    actualize<p__the(PaddleEffector::paddleMoved)>(rect);
+    actualize<p__the(PaddleEffector::paddleMoved)>(/*moving_rect=*/*this);
   }
 }
 
-void Paddle::ballMoved(const sf::RectangleShape& rect)
+void Paddle::fieldLeftPassed()
 {
-  if ((pos.x <= 35.0f) &&
-      (pos.y < (paddle_left_y + 58.0f)) &&
-      (pos.y > (paddle_left_y - 58.0f))) {
-    ball.setX(ball_x + 3.0f);
-    ball.direction.x *= -1;
+}
+
+void Paddle::fieldRightPassed()
+{
+}
+
+void Paddle::fieldTopCollided(const Rectangle& colliding_rect)
+{
+  if (identityGeometry(colliding_rect))
+    move(/*offsetX=*/0.0f, /*offsetY=*/offset);
+}
+
+void Paddle::fieldBottomCollided(const Rectangle& colliding_rect)
+{
+  if (identityGeometry(colliding_rect))
+    move(/*offsetX=*/0.0f, /*offsetY=*/-offset);
+}
+
+void Paddle::ballMoved(const Rectangle& moving_rect)
+{
+  // Corners of moving_rect
+  const sf::Vector2f& a = moving_rect.getPosition(); // top-left point
+  const sf::Vector2f& b = a + moving_rect.getSize(); // bottom-right point
+  // Detects collisions
+  if (containsPoint(a) || containsPoint(b)) {
+    // Hitting the ball back
+    actualize<p__the(PaddleEffector::paddleBallReturned)>();
   }
-  else if ((ball_x >= 765.0f) &&
-           (ball_y < (paddle_right_y + 58.0f)) &&
-           (ball_y > (paddle_right_y - 58.0f))) {
-    ball.direction.x *= -1;
+  /*
+  const sf::Vector2f& size = intersect(ball_rect).getSize();
+  if ((size.x >= 0.0f) && (size.y >= 0.0f)) {
+    // The paddle collision
   }
+  */
 }
 
 void Paddle::windowRendering(sf::RenderTarget& render)
 {
-  render.draw(rect);
+  render.draw(/*drawable=*/*this);
 }
 
 void Paddle::windowClosed()
 {
 }
+
+//const sf::RectangleShape Paddle::intersect(const sf::RectangleShape& other) const
+//{
+//  // Paddle rect
+//  const sf::Vector2f r1_p1 = rect.getPosition(); // top-left point
+//  const sf::Vector2f r1_p2 = r1_p1 + rect.getSize(); // bottom-right point
+//  // Other rect
+//  const sf::Vector2f r2_p1 = other.getPosition(); // top-left point
+//  const sf::Vector2f r2_p2 = r2_p1 + other.getSize(); // bottom-right point
+//  // Intersect rect: top-left point
+//  const sf::Vector2f r1_p1(/*x=*/std::min(std::max(r1_p1.x, r2_p1.x),
+//                                          std::max(r1_p2.x, r2_p2.x)),
+//                           /*y=*/std::min(std::max(r1_p1.y, r2_p1.y),
+//                                          std::max(r1_p2.y, r2_p2.y)));
+//  // Intersect rect: bottom-right point
+//  const sf::Vector2f r1_p2(/*x=*/std::max(std::min(r1_p1.x, r2_p1.x),
+//                                          std::min(r1_p2.x, r2_p2.x)),
+//                           /*y=*/std::max(std::min(r1_p1.y, r2_p1.y),
+//                                          std::min(r1_p2.y, r2_p2.y)));
+//  // Intersect rect
+//  sf::RectangleShape intersection;
+//  intersection.setPosition(r1_p1);
+//  intersection.setSize(r1_p2 - r1_p1);
+//  return intersection;
+//}
