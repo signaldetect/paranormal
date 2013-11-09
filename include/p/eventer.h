@@ -2,7 +2,6 @@
 #define _P_EVENTER_H_
 
 #include "channel.h"
-#include "binder.h"
 
 namespace p {
 
@@ -21,10 +20,10 @@ class Act;
 /**
  * Base class for eventers
  *
- * Generic template for effectors/effects (VT_E)
+ * Generic template for effectors (VT_E)
  */
-template <class T_Host, class ...VT_E>
-class Eventer : public Binder<T_Host, VT_E>... {
+template <class ...VT_E>
+class Eventer : public VT_E... {
 protected:
   Eventer()
   {
@@ -38,11 +37,10 @@ protected:
 /**
  * Base class for eventers
  *
- * Specialization for extenders (V_X) and effectors/effects (VT_E)
+ * Specialization for extenders (V_X) and effectors (VT_E)
  */
-template <class T_Host, class ...VT_X, class ...VT_E>
-class Eventer<T_Host, Ext<VT_X...>, VT_E...> : public VT_X...,
-                                               public Binder<T_Host, VT_E>... {
+template <class ...VT_X, class ...VT_E>
+class Eventer<Ext<VT_X...>, VT_E...> : public VT_X..., public VT_E... {
 protected:
   Eventer()
   {
@@ -56,12 +54,12 @@ protected:
 /**
  * Base class for eventers
  *
- * Specialization for actualizer (T_A) and effectors/effects (VT_E)
+ * Specialization for actualizer (T_A) and effectors (VT_E)
  */
-template <class T_Host, class T_A, class ...VT_E>
-class Eventer<T_Host, Act<T_A>, VT_E...> : public Binder<T_Host, VT_E>... {
+template <class T_A, class ...VT_E>
+class Eventer<Act<T_A>, VT_E...> : public VT_E... {
 private:
-  Channel<T_A*>& channel = Channel<T_A*>::instance();
+  Channel<T_A>& channel = Channel<T_A>::instance();
 
 protected:
   Eventer()
@@ -72,24 +70,23 @@ protected:
   {
   }
 
-  template <class t_Sign, t_Sign t_Member, class ...vt_Args>
+  template <class t_Sign, t_Sign t_Effect, class ...vt_Args>
   void actualize(vt_Args&& ...args)
   {
-    channel.template wave<t_Sign, t_Member>(args...);
+    channel.template wave<t_Sign, t_Effect>(args...);
   }
 };
 
 /**
  * Base class for eventers
  *
- * Specialization for actualizer (T_A), extenders (VT_X) and
- * effectors/effects (VT_E)
+ * Specialization for actualizer (T_A), extenders (VT_X) and effectors (VT_E)
  */
-template <class T_Host, class T_A, class ...VT_X, class ...VT_E>
-class Eventer<T_Host, Act<T_A>, Ext<VT_X...>, VT_E...>
-    : public VT_X..., public Binder<T_Host, VT_E>... {
+template <class T_A, class ...VT_X, class ...VT_E>
+class Eventer<Act<T_A>, Ext<VT_X...>, VT_E...> : public VT_X...,
+                                                 public VT_E... {
 private:
-  Channel<T_A*>& channel = Channel<T_A*>::instance();
+  Channel<T_A>& channel = Channel<T_A>::instance();
 
 protected:
   Eventer()
@@ -100,24 +97,23 @@ protected:
   {
   }
 
-  template <class t_Sign, t_Sign t_Member, class ...vt_Args>
+  template <class t_Sign, t_Sign t_Effect, class ...vt_Args>
   void actualize(vt_Args&& ...args)
   {
-    channel.template wave<t_Sign, t_Member>(args...);
+    channel.template wave<t_Sign, t_Effect>(args...);
   }
 };
 
 /**
  * Base class for eventers
  *
- * Specialization for extenders (VT_X), actualizer (T_A) and
- * effectors/effects (VT_E)
+ * Specialization for extenders (VT_X), actualizer (T_A) and effectors (VT_E)
  */
-template <class T_Host, class ...VT_X, class T_A, class ...VT_E>
-class Eventer<T_Host, Ext<VT_X...>, Act<T_A>, VT_E...>
-    : public VT_X..., public Binder<T_Host, VT_E>... {
+template <class ...VT_X, class T_A, class ...VT_E>
+class Eventer<Ext<VT_X...>, Act<T_A>, VT_E...> : public VT_X...,
+                                                 public VT_E... {
 private:
-  Channel<T_A*>& channel = Channel<T_A*>::instance();
+  Channel<T_A>& channel = Channel<T_A>::instance();
 
 protected:
   Eventer()
@@ -128,13 +124,18 @@ protected:
   {
   }
 
-  template <class t_Sign, t_Sign t_Member, class ...vt_Args>
+  template <class t_Sign, t_Sign t_Effect, class ...vt_Args>
   void actualize(vt_Args&& ...args)
   {
-    channel.template wave<t_Sign, t_Member>(args...);
+    channel.template wave<t_Sign, t_Effect>(args...);
   }
 };
 
 }
+
+/**
+ * Macro for sign and link of an effect
+ */
+#define p__the(_effect_) decltype(&_effect_), &_effect_
 
 #endif /*_P_EVENTER_H_*/
