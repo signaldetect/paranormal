@@ -1,0 +1,55 @@
+# Settings for Pong demo
+
+# Main window
+window:
+  width = 800
+  height = 600
+  title = Pong!
+  vsync = 1  # vertical sync: 0 --> off, 1 --> on
+
+# Scoreboard
+score:
+  x = 400
+  y = 10
+
+# FPS indicator
+informer:
+  x = 50
+  y = 10
+
+# Playground
+field:
+  x = 25
+  y = 0
+  width = 750
+  height = 600
+
+# Just a ball... and it's square (!)
+ball:
+  x = 400
+  y = 300
+  width = 15
+  height = 15
+
+# Paddles
+# Up/down control keys:
+#   0 .. 25 --> A .. Z
+#   61 --> Page up, 62 --> Page down, 63 --> End, 64 --> Home
+#   71 --> Left arrow, 72 --> Right arrow, 73 --> Up arrow, 74 --> Down arrow
+#   75 .. 84 --> Numpad 0 .. 9
+
+paddleLeft:
+  x = 30
+  y = 300
+  width = 10
+  height = 100
+  keyUp = 22    # W key
+  keyDown = 18  # S key
+
+paddleRight:
+  x = 760
+  y = 300
+  width = 10
+  height = 100
+  keyUp = 73    # Up arrow
+  keyDown = 74  # Down arrow

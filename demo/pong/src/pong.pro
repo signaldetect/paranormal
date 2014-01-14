@@ -15,22 +15,17 @@ LIBS += \
   -lsfml-graphics
 
 HEADERS += \
-  paddle.h \
-  ball.h \
-  game.h \
-  gameeffector.h \
-  window.h \
-  windoweffector.h \
-  fieldeffector.h \
-  field.h \
-  balleffector.h \
-  paddleeffector.h \
-  rectangle.h
+  $$files(contrib/*.h) \
+  $$files(proc/*.h) \
+  $$files(view/*.h) \
+  $$files(world/geom/*.h) \
+  $$files(world/*.h) \
+  $$files(*.h)
 
 SOURCES += \
-  main.cpp \
-  paddle.cpp \
-  ball.cpp \
-  game.cpp \
-  window.cpp \
-  field.cpp
+  $$files(contrib/*.cpp) \
+  $$files(proc/*.cpp) \
+  $$files(view/*.cpp) \
+  $$files(world/geom/*.cpp) \
+  $$files(world/*.cpp) \
+  $$files(*.cpp)

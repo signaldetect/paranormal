@@ -1,30 +1,61 @@
+#include <iostream> // std::cout, std::endl
+
 #include "game.h"
 
 Game::Game()
-  : window(/*width=*/800, /*height=*/600, /*title=*/"Pong!"),
-    field(/*pos=*/sf::Vector2f(25.0f, 0.0f),
-          /*size=*/sf::Vector2f(750.0f, 600.0f)),
-    ball(/*pos=*/sf::Vector2f(400.0f, 300.0f),
-         /*size=*/sf::Vector2f(15.0f, 15.0f)),
-    paddleLeft(/*pos=*/sf::Vector2f(30.0f, 300.0f),
-               /*size=*/sf::Vector2f(10.0f, 100.0f))
+  : paddleLeft(/*unique_mark=*/"Left"), paddleRight(/*unique_mark=*/"Right")
 {
+  launch(); // prepare playing
+  start(); // start playing
+  play(); // playing process
+}
+
+void Game::resourceErrorDetected(const std::string& message)
+{
+  // Terminates the game
+  stop();
+  // Shows the error message
+  std::cout << message << std::endl;
+}
+
+void Game::actionWindowClosed()
+{
+  // Ends the game
+  stop();
+}
+
+void Game::actionKeyPressed(const sf::Event::KeyEvent& key)
+{
+  if (key.code == sf::Keyboard::Space)
+    start(); // restart the game
+  else if (key.code == sf::Keyboard::Escape)
+    stop(); // end the game
+}
+
+void Game::launch()
+{
+  state = LAUNCHED;
   actualize<p__the(GameEffector::gameLaunched)>();
-  play();
 }
 
-void Game::windowRendering(sf::RenderTarget& /*render*/)
+void Game::start()
 {
-}
-
-void Game::windowClosed()
-{
-  playing = false;
+  if (state != STOPPED) {
+    state = PLAYING;
+    actualize<p__the(GameEffector::gameStarted)>();
+  }
 }
 
 void Game::play()
 {
-  playing = true;
-  while (playing)
+  while (state == PLAYING)
     actualize<p__the(GameEffector::gamePlaying)>();
+}
+
+void Game::stop()
+{
+  if (state != STOPPED) {
+    state = STOPPED;
+    actualize<p__the(GameEffector::gameStopped)>();
+  }
 }
