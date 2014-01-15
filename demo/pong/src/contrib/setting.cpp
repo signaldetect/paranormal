@@ -1,4 +1,12 @@
+#include <iostream> // std::cout, std::endl
+#include <sstream> // std::istringstream
+
 #include "setting.h"
+
+/**
+ * Setting
+ * Class implementation
+ */
 
 Setting::Setting()
   : defined(false)

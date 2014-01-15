@@ -24,6 +24,7 @@ HEADERS += \
 
 SOURCES += \
   $$files(contrib/*.cpp) \
+  $$files(contrib/*.tpp) \
   $$files(proc/*.cpp) \
   $$files(view/*.cpp) \
   $$files(world/geom/*.cpp) \
