@@ -1,43 +1,40 @@
-#include <SFML/Graphics/Color.hpp>
-#include <cmath> // round
-#include <sstream> // std::ostringstream
+#include <iostream> // std::cout, std::endl
+#include <string> // std::to_string
 
 #include "informer.h"
 
-Informer::Informer()
+void Informer::configOpeningFailed(const std::string& filename)
 {
+  std::cout << "Opening the configuration file '" << filename << "' failed"
+            << std::endl;
 }
 
-void Informer::resourceFontLoaded(const sf::Font& font)
+void Informer::configParsingFailed(const std::string& filename, size_t row_num,
+                                   const std::string& message)
 {
-  setFont(font);
-  setCharacterSize(16);
-  setColor(sf::Color::Red);
+  std::cout << "Parsing the configuration file '" << filename
+            << "' failed on row " + std::to_string(row_num) + ": " << message
+            << std::endl;
 }
 
-void Informer::resourceConfigLoading(const ConfigNode& node)
+void Informer::nodeDoesNotExist(const std::string& name)
 {
-  if (node.is("informer")) {
-    float x, y;
-    if ((node["x"] >> x) && (node["y"] >> y)) {
-      // Initializes the position
-      setPosition(x, y);
-    }
-  }
+  std::cout << "Node '" << name << "' doesn't exist" << std::endl;
 }
 
-void Informer::timerStepped(const sf::Time& time_step)
+void Informer::settingDoesNotExist(const std::string& name)
 {
-  timeAccum += time_step.asSeconds();
-  ++timeNum;
-  // FPS calculations
-  if (timeAccum >= 0.1f) {
-    const float fps = round((float)timeNum / timeAccum);
-    timeAccum = 0.0f;
-    timeNum = 0;
-    // Updates the text
-    std::ostringstream stream;
-    stream << "FPS = " << fps;
-    setString(stream.str());
-  }
+  std::cout << "Setting '" << name << "' doesn't exist" << std::endl;
+}
+
+void Informer::settingDecodingFailed(const std::string& name,
+                                     const std::string& message)
+{
+  std::cout << "Decoding the setting '" << name << "' failed: " << message
+            << std::endl;
+}
+
+void Informer::resourceFontNotFound(const std::string& filename)
+{
+  std::cout << "Font file '" << filename << "' not found" << std::endl;
 }

@@ -7,11 +7,13 @@
 #include "textfigure.h"
 
 // Effectors
-#include "../contrib/resourceeffector.h" // + sf::Font, ConfigNode
+#include "../contrib/configeffector.h" // + Nodes, Settings
+#include "../contrib/resourceeffector.h" // + sf::Font
 #include "../world/fieldeffector.h"
 #include "../gameeffector.h"
 
 class Score : public p::Eventer<p::Ext<TextFigure>,
+                                ConfigEffector,
                                 ResourceEffector,
                                 FieldEffector,
                                 GameEffector> {
@@ -22,11 +24,11 @@ private:
   unsigned int scorerRight;
 
 public:
-  Score();
+  // Effects (Config)
+  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
 
   // Effects (Resource)
   void resourceFontLoaded(const sf::Font& font) override;
-  void resourceConfigLoading(const ConfigNode& node) override;
 
   // Effects (Field)
   void fieldLeftPassed() override;

@@ -1,43 +1,35 @@
 #include "resource.h"
 
-#include "configparser.h"
-#include "confignode.h" // + Settings
-
 void Resource::gameLaunched()
 {
-  loadFont();
-  loadConfig();
+  // Loads the resource
+  if (loading)
+    load();
 }
 
-void Resource::loadFont()
+void Resource::gameStopped()
+{
+  // Game is terminated
+  if (loading)
+    loading = false;
+}
+
+void Resource::load()
 {
   // Loads the text font
-  if (font.loadFromFile("../resrc/sansation.ttf"))
+  if (font.loadFromFile("../resrc/sansation.ttf")) {
     actualize<p__the(ResourceEffector::resourceFontLoaded)>(font);
-  else
-    actualize<p__the(ResourceEffector::resourceErrorDetected)>
-             (/*message=*/"File sansation.ttf not found");
+    // End of loading
+    loading = false;
+  }
+  else {
+    actualize<p__the(ResourceEffector::resourceFontNotFound)>
+             (/*filename=*/"sansation.ttf");
+    fail();
+  }
 }
 
-void Resource::loadConfig()
+void Resource::fail()
 {
-  ConfigParser config(/*file_path=*/"../resrc/config.txt");
-  ConfigParser::Data data;
-  Settings settings;
-  // Loads the configuration
-  while (config.parsing()) {
-    data = config.fetch();
-    settings.append(data.key, data.value);
-    //
-    if (config.nodeCompleting()) {
-      ConfigNode node(/*node_name=*/data.node);
-      node.swap(settings); // => content in node, settings is empty
-      actualize<p__the(ResourceEffector::resourceConfigLoading)>(node);
-    }
-  }
-  //
-  if (config.hasError()) {
-    actualize<p__the(ResourceEffector::resourceErrorDetected)>
-             (/*message=*/config.errorMessage());
-  }
+  actualize<p__the(ResourceEffector::resourceCannotLoaded)>();
 }

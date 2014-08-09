@@ -5,13 +5,12 @@
 #include <SFML/Graphics/Font.hpp>
 #include <string>
 
-#include "confignode.h"
-
 class ResourceEffector : public p::Effector<ResourceEffector> {
 public:
   p__def(resourceFontLoaded, const sf::Font& /*font*/)
-  p__def(resourceConfigLoading, const ConfigNode& /*node*/)
-  p__def(resourceErrorDetected, const std::string& /*message*/)
+
+  p__def(resourceFontNotFound, const std::string& /*filename*/)
+  p__def(resourceCannotLoaded)
 };
 
 #endif /*_CONTRIB_RESOURCEEFFECTOR_H_*/

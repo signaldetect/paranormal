@@ -10,20 +10,18 @@
 #include "fieldeffector.h"
 
 // Effectors
-#include "../contrib/resourceeffector.h" // + ConfigNode
+#include "../contrib/configeffector.h" // + Nodes, Settings
 #include "balleffector.h" // + MovableRect
 #include "paddleeffector.h" // + MovableRect
 
 class Field : public p::Eventer<p::Act<FieldEffector>,
                                 p::Ext<Rect>,
-                                ResourceEffector,
+                                ConfigEffector,
                                 BallEffector,
                                 PaddleEffector> {
 public:
-  Field();
-
-  // Effects (Resource)
-  void resourceConfigLoading(const ConfigNode& node) override;
+  // Effects (Config)
+  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
 
   // Effects (Ball)
   void ballMoving(const MovableRect& moving_rect) override;

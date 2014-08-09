@@ -13,7 +13,7 @@ score:
   y = 10
 
 # FPS indicator
-informer:
+indicator:
   x = 50
   y = 10
 

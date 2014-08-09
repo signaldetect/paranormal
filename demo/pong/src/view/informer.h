@@ -3,28 +3,32 @@
 
 #include <p/eventer.h>
 
-#include "textfigure.h"
-
 // Effectors
-#include "../contrib/resourceeffector.h" // + sf::Font, ConfigNode
-#include "../proc/timereffector.h" // + sf::Time
+#include "../contrib/configeffector.h" // + std::string
+#include "../contrib/nodeeffector.h" // + std::string
+#include "../contrib/settingeffector.h" // + std::string
+#include "../contrib/resourceeffector.h" // + std::string
 
-class Informer : public p::Eventer<p::Ext<TextFigure>,
-                                   ResourceEffector,
-                                   TimerEffector> {
-private:
-  float timeAccum = 0.0f; // time step accumulation
-  unsigned int timeNum = 0; // time step number
-
+class Informer : public p::Eventer<ConfigEffector,
+                                   NodeEffector,
+                                   SettingEffector,
+                                   ResourceEffector> {
 public:
-  Informer();
+  // Effects (Config)
+  void configOpeningFailed(const std::string& filename) override;
+  void configParsingFailed(const std::string& filename, size_t row_num,
+                           const std::string& message) override;
+
+  // Effects (Node)
+  void nodeDoesNotExist(const std::string& name) override;
+
+  // Effects (Setting)
+  void settingDoesNotExist(const std::string& name) override;
+  void settingDecodingFailed(const std::string& name,
+                             const std::string& message) override;
 
   // Effects (Resource)
-  void resourceFontLoaded(const sf::Font& font) override;
-  void resourceConfigLoading(const ConfigNode& node) override;
-
-  // Effects (Timer)
-  void timerStepped(const sf::Time& time_step) override;
+  void resourceFontNotFound(const std::string& filename) override;
 };
 
 #endif /*_VIEW_INFORMER_H_*/

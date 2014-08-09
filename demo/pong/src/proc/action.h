@@ -20,8 +20,6 @@ private:
   sf::Event event;
 
 public:
-  Action();
-
   // Effects (Window)
   void windowCreating(const sf::VideoMode& mode, const sf::String& title,
                       bool vsync) override;

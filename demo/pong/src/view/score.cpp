@@ -3,8 +3,12 @@
 
 #include "score.h"
 
-Score::Score()
+void Score::configNodeParsed(const Nodes& nodes, const Settings& settings)
 {
+  if (nodes.active("score")) {
+    // Initializes the position
+    settings("x", "y") >> pos.x >> pos.y;
+  }
 }
 
 void Score::resourceFontLoaded(const sf::Font& font)
@@ -12,15 +16,6 @@ void Score::resourceFontLoaded(const sf::Font& font)
   setFont(font);
   setCharacterSize(40);
   setColor(sf::Color::White);
-}
-
-void Score::resourceConfigLoading(const ConfigNode& node)
-{
-  if (node.is("score")) {
-    // Initializes the position
-    node["x"] >> pos.x;
-    node["y"] >> pos.y;
-  }
 }
 
 void Score::fieldLeftPassed()

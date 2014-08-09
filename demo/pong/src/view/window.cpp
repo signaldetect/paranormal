@@ -4,26 +4,21 @@
 
 #include "window.h"
 
-Window::Window()
-{
-}
-
 sf::Vector2u Window::getSize() const
 {
   return size;
 }
 
-void Window::resourceConfigLoading(const ConfigNode& node)
+void Window::configNodeParsed(const Nodes& nodes, const Settings& settings)
 {
-  if (node.is("window")) {
+  if (nodes.active("window")) {
     std::string title;
     // Initializes the window view
-    if ((node["width"] >> size.x) && (node["height"] >> size.y) &&
-        (node["title"] >> title)) {
+    if (settings("width", "height", "title") >> size.x >> size.y >> title) {
       // Sets the vertical synchronization
       bool vsync = true; // enable by default
-      if (node.contains("vsync"))
-        node["vsync"] >> vsync;
+      if (settings.contains("vsync"))
+        settings("vsync") >> vsync;
       // Creates the window
       //setupView(width, height, title, vsync);
       actualize<p__the(WindowEffector::windowCreating)>

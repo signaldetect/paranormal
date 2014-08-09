@@ -10,7 +10,7 @@
 #include "balleffector.h"
 
 // Effectors
-#include "../contrib/resourceeffector.h" // + ConfigNode
+#include "../contrib/configeffector.h" // + Nodes, Settings
 #include "../proc/timereffector.h" // + sf::Time
 #include "fieldeffector.h" // + MovableRect, Impact
 #include "paddleeffector.h" // + MovableRect, Impact
@@ -18,16 +18,14 @@
 
 class Ball : public p::Eventer<p::Act<BallEffector>,
                                p::Ext<MovableRectFigure>,
-                               ResourceEffector,
+                               ConfigEffector,
                                TimerEffector,
                                FieldEffector,
                                PaddleEffector,
                                GameEffector> {
 public:
-  Ball();
-
-  // Effects (Resource)
-  void resourceConfigLoading(const ConfigNode& node) override;
+  // Effects (Config)
+  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
 
   // Effects (Timer)
   void timerStepped(const sf::Time& time_step) override;

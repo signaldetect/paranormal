@@ -13,15 +13,18 @@
 class Resource : public p::Eventer<p::Act<ResourceEffector>,
                                    GameEffector> {
 private:
+  bool loading = true;
+
   sf::Font font;
 
 public:
   // Effects (Game)
   void gameLaunched() override;
+  void gameStopped() override;
 
 private:
-  void loadFont();
-  void loadConfig();
+  void load();
+  void fail();
 };
 
 #endif /*_CONTRIB_RESOURCE_H_*/

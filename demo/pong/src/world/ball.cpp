@@ -5,16 +5,11 @@
 
 #include "geom/rect.h"
 
-Ball::Ball()
+void Ball::configNodeParsed(const Nodes& nodes, const Settings& settings)
 {
-}
-
-void Ball::resourceConfigLoading(const ConfigNode& node)
-{
-  if (node.is("ball")) {
+  if (nodes.active("ball")) {
     float x, y, width, height;
-    if ((node["x"] >> x) && (node["y"] >> y) &&
-        (node["width"] >> width) && (node["height"] >> height)) {
+    if (settings("x", "y", "width", "height") >> x >> y >> width >> height) {
       // Initializes the position and size
       setupGeometry(x, y, width, height);
     }

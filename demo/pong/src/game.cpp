@@ -1,5 +1,3 @@
-#include <iostream> // std::cout, std::endl
-
 #include "game.h"
 
 Game::Game()
@@ -10,12 +8,16 @@ Game::Game()
   play(); // playing process
 }
 
-void Game::resourceErrorDetected(const std::string& message)
+void Game::configCannotParsed()
 {
   // Terminates the game
   stop();
-  // Shows the error message
-  std::cout << message << std::endl;
+}
+
+void Game::resourceCannotLoaded()
+{
+  // Terminates the game
+  stop();
 }
 
 void Game::actionWindowClosed()

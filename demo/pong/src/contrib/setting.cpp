@@ -1,4 +1,3 @@
-#include <iostream> // std::cout, std::endl
 #include <sstream> // std::istringstream
 
 #include "setting.h"
@@ -8,53 +7,31 @@
  * Class implementation
  */
 
-Setting::Setting()
-  : defined(false)
+Setting::Setting(const std::string& name)
+  : dataName(name)
 {
+  actualize<p__the(SettingEffector::settingDoesNotExist)>(name);
 }
 
-Setting::Setting(const std::string& key)
-  : defined(false), dataKey(key)
+Setting::Setting(const std::string& name, const std::string& value)
+  : dataName(name), dataValue(value)
 {
-}
-
-Setting::Setting(const std::string& key, const std::string& value)
-  : defined(true), dataKey(key), dataVal(value)
-{
-}
-
-const std::string& Setting::key() const
-{
-  return dataKey;
-}
-
-const std::string& Setting::value() const
-{
-  return dataVal;
-}
-
-bool Setting::equals(const Setting& other) const
-{
-  return ((other.defined == defined) &&
-          (other.dataKey == dataKey) && (other.dataVal == dataVal));
 }
 
 bool Setting::exists() const
 {
-  if (defined)
-    return true;
-  // Otherwise => setting doesn't exist
-  std::cout << "Setting '" << dataKey << "' doesn't exist" << std::endl;
-  return false;
+  return !dataValue.empty();
 }
 
-/**
- * Setting value to string transfer
- */
-bool Setting::decode(std::string& dest) const
+bool Setting::decoded() const
+{
+  return dataDecoded;
+}
+
+bool Setting::operator >>(std::string& dest) const
 {
   if (exists()) {
-    dest = dataVal; // setting value --> dest
+    dest = dataValue;
     return true;
   }
   // Otherwise => setting doesn't exist
@@ -64,41 +41,27 @@ bool Setting::decode(std::string& dest) const
 /**
  * Setting value to char (as a number) converter
  */
-bool Setting::decode(char& dest, char lim_min, char lim_max) const
+void Setting::decode(char& dest, char lim_min, char lim_max)
 {
   short number;
-  if (decode(/*dest=*/number,
-             static_cast<short>(lim_min), static_cast<short>(lim_max))) {
+  decode(/*dest=*/number,
+         static_cast<short>(lim_min), static_cast<short>(lim_max));
+  if (decoded())
     dest = static_cast<char>(number);
-    return true;
-  }
-  // Otherwise => setting doesn't exist or conversion error occurred
-  return false;
 }
 
 /**
  * Setting value to unsigned char (as a number) converter
  */
-bool Setting::decode(unsigned char& dest,
-                     unsigned char lim_min, unsigned char lim_max) const
+void Setting::decode(unsigned char& dest,
+                     unsigned char lim_min, unsigned char lim_max)
 {
   typedef unsigned short ushort;
   ushort number;
-  if (decode(/*dest=*/number,
-             static_cast<ushort>(lim_min), static_cast<ushort>(lim_max))) {
+  decode(/*dest=*/number,
+         static_cast<ushort>(lim_min), static_cast<ushort>(lim_max));
+  if (decoded())
     dest = static_cast<unsigned char>(number);
-    return true;
-  }
-  // Otherwise => setting doesn't exist or conversion error occurred
-  return false;
-}
-
-/**
- * Safe bool idiom
- */
-Setting::operator BoolTypeOp() const
-{
-  return (exists() ? &Setting::boolTypeTrue : nullptr);
 }
 
 bool Setting::hasNegNumber(const std::string& str) const
@@ -121,9 +84,29 @@ bool Setting::hasNegNumber(const std::string& str) const
   return false;
 }
 
+/*
+bool Setting::equals(const Setting& other) const
+{
+  return ((other.defined == defined) &&
+          (other.dataKey == dataKey) && (other.dataVal == dataVal));
+}
+*/
+
+/**
+ * Safe bool idiom
+ */
+/*
+Setting::operator BoolTypeOp() const
+{
+  return (exists() ? &Setting::boolTypeTrue : nullptr);
+}
+*/
+
 /**
  * Method for safe bool idiom
  */
+/*
 void Setting::boolTypeTrue() const
 {
 }
+*/

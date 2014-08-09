@@ -11,7 +11,7 @@
 #include "paddleeffector.h"
 
 // Effectors
-#include "../contrib/resourceeffector.h" // + ConfigNode
+#include "../contrib/configeffector.h" // + Nodes, Settings
 #include "../proc/timereffector.h" // + sf::Time
 #include "fieldeffector.h" // + MovableRect, Impact
 #include "balleffector.h" // + MovableRect
@@ -19,7 +19,7 @@
 
 class Paddle : public p::Eventer<p::Act<PaddleEffector>,
                                  p::Ext<MovableRectFigure>,
-                                 ResourceEffector,
+                                 ConfigEffector,
                                  TimerEffector,
                                  FieldEffector,
                                  BallEffector,
@@ -34,8 +34,8 @@ private:
 public:
   Paddle(const std::string& unique_mark);
 
-  // Effects (Resource)
-  void resourceConfigLoading(const ConfigNode& node) override;
+  // Effects (Config)
+  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
 
   // Effects (Timer)
   void timerStepped(const sf::Time& time_step) override;

@@ -12,14 +12,14 @@
 #include "windoweffector.h"
 
 // Effectors
-#include "../contrib/resourceeffector.h" // + ConfigNode
+#include "../contrib/configeffector.h" // + Nodes, Settings
 #include "../contrib/figureeffector.h" // + sf::Drawable
 #include "../proc/actioneffector.h" // + sf::Vector2u
 #include "../gameeffector.h"
 
 class Window : public p::Eventer<p::Act<WindowEffector>,
                                  p::Ext<sf::RenderTarget>,
-                                 ResourceEffector,
+                                 ConfigEffector,
                                  FigureEffector,
                                  ActionEffector,
                                  GameEffector> {
@@ -33,12 +33,10 @@ private:
   Drawables drawables;
 
 public:
-  Window();
-
   sf::Vector2u getSize() const override;
 
-  // Effects (Resource)
-  void resourceConfigLoading(const ConfigNode& node) override;
+  // Effects (Config)
+  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
 
   // Effects (Figure)
   void figureDrawingReady(const sf::Drawable& drawable) override;

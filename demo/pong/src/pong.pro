@@ -30,3 +30,6 @@ SOURCES += \
   $$files(world/geom/*.cpp) \
   $$files(world/*.cpp) \
   $$files(*.cpp)
+
+OTHER_FILES += \
+  ../resrc/config.txt

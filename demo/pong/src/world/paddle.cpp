@@ -7,19 +7,18 @@ Paddle::Paddle(const std::string& unique_mark)
 {
 }
 
-void Paddle::resourceConfigLoading(const ConfigNode& node)
+void Paddle::configNodeParsed(const Nodes& nodes, const Settings& settings)
 {
-  if (node.is("paddle" + mark)) {
+  if (nodes.active("paddle" + mark)) {
     // Geometry
     float x, y, width, height;
-    if ((node["x"] >> x) && (node["y"] >> y) &&
-        (node["width"] >> width) && (node["height"] >> height)) {
+    if (settings("x", "y", "width", "height") >> x >> y >> width >> height) {
       // Initializes the position and size
       setupGeometry(x, y, width, height);
     }
     // Control
     int key_up, key_down;
-    if ((node["keyUp"] >> key_up) && (node["keyDown"] >> key_down)) {
+    if (settings("keyUp", "keyDown") >> key_up >> key_down) {
       // Setups control keys
       keyUp = static_cast<sf::Keyboard::Key>(key_up);
       keyDown = static_cast<sf::Keyboard::Key>(key_down);

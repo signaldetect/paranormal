@@ -2,16 +2,11 @@
 
 #include "geom/innerimpact.h"
 
-Field::Field()
+void Field::configNodeParsed(const Nodes& nodes, const Settings& settings)
 {
-}
-
-void Field::resourceConfigLoading(const ConfigNode& node)
-{
-  if (node.is("field")) {
+  if (nodes.active("field")) {
     float x, y, width, height;
-    if ((node["x"] >> x) && (node["y"] >> y) &&
-        (node["width"] >> width) && (node["height"] >> height)) {
+    if (settings("x", "y", "width", "height") >> x >> y >> width >> height) {
       // Initializes the position and size
       setupGeometry(x, y, width, height);
     }

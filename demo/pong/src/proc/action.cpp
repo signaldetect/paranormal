@@ -1,9 +1,5 @@
 #include "action.h"
 
-Action::Action()
-{
-}
-
 void Action::windowCreating(const sf::VideoMode& mode, const sf::String& title,
                             bool vsync)
 {
