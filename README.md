@@ -1,2 +1,2 @@
-Paranormal is a simple C++ micro-framework for programming a business logic of
+Paranormal is a C++ micro-framework for programming business logic of
 applications and prototyping games.
