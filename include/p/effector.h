@@ -34,4 +34,9 @@ protected:
  */
 #define p__def(_name_, ...) virtual void _name_(__VA_ARGS__) {}
 
+/**
+ * Macro for incarnation of an effect (prototype) as part of eventer
+ */
+#define p__inc(_name_, ...) void _name_(__VA_ARGS__) override;
+
 #endif /*_P_EFFECTOR_H_*/
