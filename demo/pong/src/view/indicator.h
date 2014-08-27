@@ -19,14 +19,16 @@ private:
   unsigned int timeNum = 0; // time step number
 
 public:
-  // Effects (Config)
-  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
+  // Effects
 
-  // Effects (Resource)
-  void resourceFontLoaded(const sf::Font& font) override;
+  // * Config
+  p__inc(configNodeParsed, const Nodes& nodes, const Settings& settings)
 
-  // Effects (Timer)
-  void timerStepped(const sf::Time& time_step) override;
+  // * Resource
+  p__inc(resourceFontLoaded, const sf::Font& font)
+
+  // * Timer
+  p__inc(timerStepped, const sf::Time& time_step)
 };
 
 #endif /*_VIEW_INDICATOR_H_*/

@@ -14,21 +14,24 @@ class Informer : public p::Eventer<ConfigEffector,
                                    SettingEffector,
                                    ResourceEffector> {
 public:
-  // Effects (Config)
-  void configOpeningFailed(const std::string& filename) override;
-  void configParsingFailed(const std::string& filename, size_t row_num,
-                           const std::string& message) override;
+  // Effects
 
-  // Effects (Node)
-  void nodeDoesNotExist(const std::string& name) override;
+  // * Config
+  p__inc(configOpeningFailed, const std::string& filename)
+  p__inc(configParsingFailed,
+         const std::string& filename, size_t row_num,
+         const std::string& message)
 
-  // Effects (Setting)
-  void settingDoesNotExist(const std::string& name) override;
-  void settingDecodingFailed(const std::string& name,
-                             const std::string& message) override;
+  // * Node
+  p__inc(nodeDoesNotExist, const std::string& name)
 
-  // Effects (Resource)
-  void resourceFontNotFound(const std::string& filename) override;
+  // * Setting
+  p__inc(settingDoesNotExist, const std::string& name)
+  p__inc(settingDecodingFailed,
+         const std::string& name, const std::string& message)
+
+  // * Resource
+  p__inc(resourceFontNotFound, const std::string& filename)
 };
 
 #endif /*_VIEW_INFORMER_H_*/

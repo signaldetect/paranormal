@@ -18,9 +18,11 @@ private:
   sf::Font font;
 
 public:
-  // Effects (Game)
-  void gameLaunched() override;
-  void gameStopped() override;
+  // Effects
+
+  // * Game
+  p__inc(gameLaunched)
+  p__inc(gameStopped)
 
 private:
   void load();

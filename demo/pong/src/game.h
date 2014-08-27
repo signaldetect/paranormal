@@ -33,12 +33,15 @@ private:
 
   Config config;
   Resource resource;
+
   Action action;
   Timer timer;
+
   Window window;
   Score score;
   Informer informer;
   Indicator indicator;
+
   Field field;
   Ball ball;
   Paddle paddleLeft;
@@ -47,15 +50,17 @@ private:
 public:
   Game();
 
-  // Effects (Config)
-  void configCannotParsed() override;
+  // Effects
 
-  // Effects (Resource)
-  void resourceCannotLoaded() override;
+  // * Config
+  p__inc(configCannotParsed)
 
-  // Effects (Action)
-  void actionWindowClosed() override;
-  void actionKeyPressed(const sf::Event::KeyEvent& key) override;
+  // * Resource
+  p__inc(resourceCannotLoaded)
+
+  // * Action
+  p__inc(actionWindowClosed)
+  p__inc(actionKeyPressed, const sf::Event::KeyEvent& key)
 
 private:
   void launch();

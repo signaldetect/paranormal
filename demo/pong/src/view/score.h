@@ -24,18 +24,20 @@ private:
   unsigned int scorerRight;
 
 public:
-  // Effects (Config)
-  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
+  // Effects
 
-  // Effects (Resource)
-  void resourceFontLoaded(const sf::Font& font) override;
+  // * Config
+  p__inc(configNodeParsed, const Nodes& nodes, const Settings& settings)
 
-  // Effects (Field)
-  void fieldLeftPassed() override;
-  void fieldRightPassed() override;
+  // * Resource
+  p__inc(resourceFontLoaded, const sf::Font& font)
 
-  // Effects (Game)
-  void gameStarted() override;
+  // * Field
+  p__inc(fieldLeftPassed)
+  p__inc(fieldRightPassed)
+
+  // * Game
+  p__inc(gameStarted)
 
 private:
   void update();

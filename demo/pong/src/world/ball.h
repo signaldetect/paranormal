@@ -24,26 +24,28 @@ class Ball : public p::Eventer<p::Act<BallEffector>,
                                PaddleEffector,
                                GameEffector> {
 public:
-  // Effects (Config)
-  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
+  // Effects
 
-  // Effects (Timer)
-  void timerStepped(const sf::Time& time_step) override;
+  // * Config
+  p__inc(configNodeParsed, const Nodes& nodes, const Settings& settings)
 
-  // Effects (Field)
-  void fieldLeftPassed() override;
-  void fieldRightPassed() override;
-  void fieldTopCollided(const MovableRect& collided_rect,
-                        const Impact& impact) override;
-  void fieldBottomCollided(const MovableRect& collided_rect,
-                           const Impact& impact) override;
+  // * Timer
+  p__inc(timerStepped, const sf::Time& time_step)
 
-  // Effects (Paddle)
-  void paddleMoving(const MovableRect& moving_rect) override;
-  void paddleBallReturned(const Impact& impact) override;
+  // * Field
+  p__inc(fieldLeftPassed)
+  p__inc(fieldRightPassed)
+  p__inc(fieldTopCollided,
+         const MovableRect& collided_rect, const Impact& impact)
+  p__inc(fieldBottomCollided,
+         const MovableRect& collided_rect, const Impact& impact)
 
-  // Effects (Game)
-  void gameStarted() override;
+  // * Paddle
+  p__inc(paddleMoving, const MovableRect& moving_rect)
+  p__inc(paddleBallReturned, const Impact& impact)
+
+  // * Game
+  p__inc(gameStarted)
 
 private:
   void initialize();

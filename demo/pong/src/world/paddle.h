@@ -34,23 +34,25 @@ private:
 public:
   Paddle(const std::string& unique_mark);
 
-  // Effects (Config)
-  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
+  // Effects
 
-  // Effects (Timer)
-  void timerStepped(const sf::Time& time_step) override;
+  // * Config
+  p__inc(configNodeParsed, const Nodes& nodes, const Settings& settings)
 
-  // Effects (Field)
-  void fieldTopCollided(const MovableRect& collided_rect,
-                        const Impact& impact) override;
-  void fieldBottomCollided(const MovableRect& collided_rect,
-                           const Impact& impact) override;
+  // * Timer
+  p__inc(timerStepped, const sf::Time& time_step)
 
-  // Effects (Ball)
-  void ballMoving(const MovableRect& moving_rect) override;
+  // * Field
+  p__inc(fieldTopCollided,
+         const MovableRect& collided_rect, const Impact& impact)
+  p__inc(fieldBottomCollided,
+         const MovableRect& collided_rect, const Impact& impact)
 
-  // Effects (Game)
-  void gameStarted() override;
+  // * Ball
+  p__inc(ballMoving, const MovableRect& moving_rect)
+
+  // * Game
+  p__inc(gameStarted)
 };
 
 #endif /*_WORLD_PADDLE_H_*/

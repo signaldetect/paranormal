@@ -16,8 +16,10 @@
 class Figure : public p::Eventer<p::Act<FigureEffector>,
                                  ActionEffector> {
 public:
-  // Effects (Action)
-  void actionWindowCreated() override;
+  // Effects
+
+  // * Action
+  p__inc(actionWindowCreated)
 
 private:
   virtual const sf::Drawable& asDrawable() const = 0;

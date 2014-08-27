@@ -20,14 +20,16 @@ class Field : public p::Eventer<p::Act<FieldEffector>,
                                 BallEffector,
                                 PaddleEffector> {
 public:
-  // Effects (Config)
-  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
+  // Effects
 
-  // Effects (Ball)
-  void ballMoving(const MovableRect& moving_rect) override;
+  // * Config
+  p__inc(configNodeParsed, const Nodes& nodes, const Settings& settings)
 
-  // Effects (Paddle)
-  void paddleMoving(const MovableRect& moving_rect) override;
+  // * Ball
+  p__inc(ballMoving, const MovableRect& moving_rect)
+
+  // * Paddle
+  p__inc(paddleMoving, const MovableRect& moving_rect)
 
 private:
   bool detectPasses(const MovableRect& rect);

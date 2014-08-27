@@ -35,21 +35,23 @@ private:
 public:
   sf::Vector2u getSize() const override;
 
-  // Effects (Config)
-  void configNodeParsed(const Nodes& nodes, const Settings& settings) override;
+  // Effects
 
-  // Effects (Figure)
-  void figureDrawingReady(const sf::Drawable& drawable) override;
+  // * Config
+  p__inc(configNodeParsed, const Nodes& nodes, const Settings& settings)
 
-  // Effects (Action)
-  void actionWindowCreated() override;
-  void actionWindowResized(const sf::Vector2u& new_size) override;
-  void actionActivationChanged(bool active) override;
-  void actionActivationFailed() override;
+  // * Figure
+  p__inc(figureDrawingReady, const sf::Drawable& drawable)
 
-  // Effects (Game)
-  void gamePlaying() override;
-  void gameStopped() override;
+  // * Action
+  p__inc(actionWindowCreated)
+  p__inc(actionWindowResized, const sf::Vector2u& new_size)
+  p__inc(actionActivationChanged, bool active)
+  p__inc(actionActivationFailed)
+
+  // * Game
+  p__inc(gamePlaying)
+  p__inc(gameStopped)
 
 private:
   bool activate(bool active) override;

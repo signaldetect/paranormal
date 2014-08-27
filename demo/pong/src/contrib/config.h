@@ -38,7 +38,7 @@ class Config : public p::Eventer<p::Act<ConfigEffector>,
                                  NodeEffector,
                                  SettingEffector> {
 private:
-  bool parsing = true;
+  bool parsing = true; // in parsing state by default
 
   const std::string filePath = "../resrc/config.txt";
   std::ifstream file; // configuration file stream
@@ -47,21 +47,23 @@ private:
   Nodes nodes; // expected and defined nodes
   std::unordered_set<std::string> wanted; // names of wanted (required) nodes
 
-  Settings settings; // settings of current node
+  Settings settings; // settings of a current node
 
 public:
-  // Effects (Game)
-  void gameLaunched() override;
-  void gameStopped() override;
+  // Effects
 
-  // Effects (Node)
-  void nodeExpected(const std::string& name, bool required) override;
-  void nodeDoesNotExist(const std::string& name) override;
+  // * Game
+  p__inc(gameLaunched)
+  p__inc(gameStopped)
 
-  // Effects (Setting)
-  void settingDoesNotExist(const std::string& name) override;
-  void settingDecodingFailed(const std::string& name,
-                             const std::string& message) override;
+  // * Node
+  p__inc(nodeExpected, const std::string& name, bool required)
+  p__inc(nodeDoesNotExist, const std::string& name)
+
+  // * Setting
+  p__inc(settingDoesNotExist, const std::string& name)
+  p__inc(settingDecodingFailed,
+         const std::string& name, const std::string& message)
 
 private:
   void start();

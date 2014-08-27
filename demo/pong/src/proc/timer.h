@@ -14,8 +14,10 @@ class Timer : public p::Eventer<p::Act<TimerEffector>,
                                 p::Ext<sf::Clock>,
                                 GameEffector> {
 public:
-  // Effects (Game)
-  void gamePlaying() override;
+  // Effects
+
+  // * Game
+  p__inc(gamePlaying)
 };
 
 #endif /*_PROC_TIMER_H_*/

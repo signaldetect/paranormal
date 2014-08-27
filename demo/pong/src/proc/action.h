@@ -20,14 +20,16 @@ private:
   sf::Event event;
 
 public:
-  // Effects (Window)
-  void windowCreating(const sf::VideoMode& mode, const sf::String& title,
-                      bool vsync) override;
-  void windowActivationChanging(bool active) override;
+  // Effects
 
-  // Effects (Game)
-  void gamePlaying() override;
-  void gameStopped() override;
+  // * Window
+  p__inc(windowCreating,
+         const sf::VideoMode& mode, const sf::String& title, bool vsync)
+  p__inc(windowActivationChanging, bool active)
+
+  // * Game
+  p__inc(gamePlaying)
+  p__inc(gameStopped)
 
 protected:
   void onCreate() override;
